@@ -12,7 +12,7 @@ import { Strategy } from 'passport';
 import { OAuth2 } from 'oauth';
 import { OutgoingHttpHeaders } from 'http';
 
-declare class OAuth2Strategy extends Strategy {
+export declare class OAuth2Strategy extends Strategy {
     name: string;
 
     /**
@@ -22,8 +22,8 @@ declare class OAuth2Strategy extends Strategy {
      */
     protected _oauth2: OAuth2;
 
-    constructor(options: OAuth2Strategy.StrategyOptions, verify: OAuth2Strategy.VerifyFunction);
-    constructor(options: OAuth2Strategy.StrategyOptionsWithRequest, verify: OAuth2Strategy.VerifyFunctionWithRequest);
+    constructor(options: oAuth2Strategy.StrategyOptions, verify: oAuth2Strategy.VerifyFunction);
+    constructor(options: oAuth2Strategy.StrategyOptionsWithRequest, verify: oAuth2Strategy.VerifyFunctionWithRequest);
 
     authenticate(req: Request, options?: any): void;
 
@@ -33,7 +33,7 @@ declare class OAuth2Strategy extends Strategy {
     parseErrorResponse(body: any, status: number): Error | null;
 }
 
-declare namespace OAuth2Strategy {
+declare namespace oAuth2Strategy {
     interface Metadata {
         authorizationURL: string;
         tokenURL: string;
@@ -54,11 +54,18 @@ declare namespace OAuth2Strategy {
     type VerifyCallback = (err?: Error | null, user?: object, info?: object) => void;
 
     type VerifyFunction =
-        ((accessToken: string, refreshToken: string, profile: any, verified: VerifyCallback) => void) |
-        ((accessToken: string, refreshToken: string, results: any, profile: any, verified: VerifyCallback) => void);
+        | ((accessToken: string, refreshToken: string, profile: any, verified: VerifyCallback) => void)
+        | ((accessToken: string, refreshToken: string, results: any, profile: any, verified: VerifyCallback) => void);
     type VerifyFunctionWithRequest =
-        ((req: Request, accessToken: string, refreshToken: string, profile: any, verified: VerifyCallback) => void) |
-        ((req: Request, accessToken: string, refreshToken: string, results: any, profile: any, verified: VerifyCallback) => void);
+        | ((req: Request, accessToken: string, refreshToken: string, profile: any, verified: VerifyCallback) => void)
+        | ((
+              req: Request,
+              accessToken: string,
+              refreshToken: string,
+              results: any,
+              profile: any,
+              verified: VerifyCallback,
+          ) => void);
 
     interface _StrategyOptionsBase {
         authorizationURL: string;
@@ -102,5 +109,3 @@ declare namespace OAuth2Strategy {
         oauthError: any;
     }
 }
-
-export = OAuth2Strategy;
